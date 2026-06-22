@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mondo Del Gelato - Classic Ice Cream Parlor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #ec4899;
+            --light-pink: #f472b6;
+            --sky-blue: #0ea5e9;
+            --light-sky: #38bdf8;
+            --dark-sky: #0284c7;
+            --white: #fff;
+            --light-gray: #f8fafc;
+            --dark-gray: #1e293b;
+            --text-gray: #64748b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: linear-gradient(135deg, #fff9f0 0%, #f0f9ff 100%);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background:var(--sky-blue);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo is now an image (no text) and can receive a new image on click */
+        .logo {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height:70px;
+            width:90px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Hidden file input used to swap the logo image */
+        #logoInput {
+            display: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color:var(--pink);
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, var(--pink), var(--light-pink));
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.4rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Decorative Shapes */
+        .shape {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--pink), var(--sky-blue));
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--sky-blue), var(--pink));
+            bottom: 50px;
+            left: -100px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0);
+            }
+            50% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 2rem 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+            line-height: 1.2;
+        }
+
+        .hero-content h1 span {
+            color: var(--pink);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .hero-btn {
+            background: linear-gradient(135deg, var(--pink), var(--light-pink));
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark-gray);
+        }
+
+        .section-title span {
+            color: var(--pink);
+        }
+
+        /* Relive Section */
+        .relive {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--sky-blue);
+            border: 2px solid red ;
+        }
+
+        .relive-image img {
+            width: 100%;
+            border-radius: 15px;
+            
+        }
+
+        .relive-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color:white;
+        }
+
+        .relive-content h2 span {
+            color: var(--pink);
+        }
+
+        .relive-content p {
+            font-size: 1rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Flavor Cards */
+        .flavors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .flavor-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .flavor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.2);
+        }
+
+        .flavor-card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--light-pink), var(--light-sky));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .flavor-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .flavor-card-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .flavor-card-content h3 {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .flavor-card-content p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Celebration Cards */
+        .celebration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .celebration-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .celebration-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.2);
+        }
+
+        .celebration-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--sky-blue), var(--light-sky));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .celebration-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .celebration-content {
+            padding: 2rem;
+        }
+
+        .celebration-content h3 {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .celebration-content p {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .celebration-btn {
+            background: linear-gradient(135deg, var(--pink), var(--light-pink));
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .celebration-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Scoop Section */
+        .scoop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .scoop-card {
+            text-align: center;
+        }
+
+        .scoop-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--pink), var(--light-pink));
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .scoop-card h3 {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .scoop-card p {
+            color: var(--text-gray);
+        }
+
+        /* Categories Section */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            position: relative;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.7));
+            padding: 1.5rem;
+            color: #fff;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover .category-overlay {
+            transform: translateY(0);
+        }
+
+        .category-overlay h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Summer Special - FULL WIDTH BACKGROUND */
+        .summer-special-section {
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+            margin: 60px 0;
+        }
+
+        .summer-special {
+            background: var(--sky-blue);
+            color: #fff;
+            width: 100%;
+        }
+
+        .summer-special-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .summer-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .summer-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .summer-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .summer-image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Sellers Section */
+        .sellers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .seller-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .seller-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .seller-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--light-sky), var(--sky-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .seller-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .seller-info {
+            padding: 1.5rem;
+        }
+
+        .seller-info h3 {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .seller-rating {
+            color: var(--pink);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .seller-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: var(--pink);
+            font-weight: bold;
+        }
+
+        .cart-btn {
+            background: linear-gradient(135deg, var(--sky-blue), var(--light-sky));
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        /* ===== Testimonials Section - REDESIGNED (sky blue background) ===== */
+        .testimonials-section {
+            width: 100%;
+            max-width: 100%;
+            padding: 80px 1.5rem;
+            margin: 0;
+            background: var(--sky-blue);
+        }
+
+        .testimonials-section .section-title {
+            color: #fff;
+        }
+
+        .testimonials-section .section-title span {
+            color: #fde047;
+        }
+
+        .testimonials-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+        }
+
+        .t-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.25);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .t-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(2, 132, 199, 0.35);
+        }
+
+        .t-quote-mark {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 3.5rem;
+            line-height: 1;
+            color: var(--light-sky);
+            opacity: 0.4;
+            font-family: Georgia, serif;
+        }
+
+        .t-text {
+            color: var(--text-gray);
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .t-rating {
+            color: #fbbf24;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        .t-person {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            border-top: 1px solid #eef2f7;
+            padding-top: 1.25rem;
+        }
+
+        .t-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--light-sky);
+            flex-shrink: 0;
+        }
+
+        .t-name {
+            font-weight: 700;
+            color: var(--dark-gray);
+            font-size: 1.05rem;
+        }
+
+        .t-role {
+            color: var(--pink);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .why-choose-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-top: 4px solid var(--pink);
+        }
+
+        .why-choose-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.2);
+        }
+
+        .why-choose-icon {
+            font-size: 3rem;
+            color: var(--pink);
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-card h3 {
+            font-size: 1.3rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-card p {
+            color: var(--text-gray);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--sky-blue), var(--dark-sky));
+            color: #fff;
+            padding: 60px 2rem 30px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            color: var(--dark-gray);
+        }
+
+        .modal-header h2 span {
+            color: var(--pink);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-gray);
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--pink);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--pink), var(--light-pink));
+            color: #fff;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: var(--pink);
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Scroll To Top */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--pink), var(--light-pink));
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+        }
+
+        .scroll-top.show {
+            display: flex;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 78px;
+                flex-direction: column;
+                background-color: var(--dark-sky);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem 0;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 100px 1rem 40px;
+                min-height: auto;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .relive {
+                grid-template-columns: 1fr;
+            }
+
+            .summer-special-inner {
+                grid-template-columns: 1fr;
+                padding: 50px 1.5rem;
+            }
+
+            .summer-content h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .flavors-grid,
+            .celebration-grid,
+            .sellers-grid,
+            .why-choose-grid,
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scoop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .summer-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .relive-content h2 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 40px 1rem;
+            }
+
+            .nav-container {
+                padding: 0.75rem;
+            }
+
+            .scroll-top {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <!-- Logo is now an image. Click it to upload/receive a new image. -->
+            <div class="logo" id="logo" title="Click to change logo">
+                <img src="./images/logo.png" alt="Mondo Del Gelato logo" id="logoImg">
+                <input type="file" id="logoInput" accept="image/*">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#contact" class="contact-btn" id="contactBtn">Contact us</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home" data-aos="fade-up">
+        <div class="hero-content">
+            <h1>Welcome to The <span>Classic Ice Cream Parlor</span></h1>
+            <p>Enjoy the taste of traditional ice cream made with the best and purest ingredients. Crafted with care and served with love.</p>
+            <a href="#contact" class="hero-btn"><i class="fas fa-arrow-right"></i> Order Now</a>
+        </div>
+        <div class="hero-image" data-aos="fade-left">
+            <img src="./images/ChatGPT Image Jun 11, 2026, 02_44_20 AM.png" alt="Ice Cream Cone">
+        </div>
+    </section>
+
+    <!-- Relive Section -->
+    <section class="relive" id="about" data-aos="fade-up">
+        <div class="relive-image" data-aos="fade-right">
+            <img src="./images/ChatGPT Image Jun 11, 2026, 03_41_45 AM.png" alt="Girl eating ice cream">
+        </div>
+        <div class="relive-content" data-aos="fade-left">
+            <h2>Relive the Sweet <span>Memories</span> of Classic Ice Creams</h2>
+            <p>Each scoop is a journey back to childhood, crafted with premium ingredients sourced from around the world. Our ice cream parlor brings tradition and innovation together in every delightful bite.</p>
+            <a href="#" class="hero-btn"><i class="fas fa-arrow-right"></i> Learn More</a>
+        </div>
+    </section>
+
+    <!-- Classic Favorites -->
+    <section id="flavors" data-aos="fade-up">
+        <h2 class="section-title">Our <span>Classic Favorites</span></h2>
+        <div class="flavors-grid">
+            <div class="flavor-card" data-aos="zoom-in" data-aos-delay="0">
+                <div class="flavor-card-image">
+                    <img src="./images/ChatGPT Image Jun 11, 2026, 03_48_56 AM.png" alt="Strawberry">
+                </div>
+                <div class="flavor-card-content">
+                    <h3>Strawberry Dream</h3>
+                    <p>Sweet and refreshing strawberry flavor</p>
+                </div>
+            </div>
+            <div class="flavor-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="flavor-card-image">
+                    <img src="./images/ChatGPT Image Jun 11, 2026, 03_48_56 AM.png" alt="Pistachio">
+                </div>
+                <div class="flavor-card-content">
+                    <h3>Pistachio Paradise</h3>
+                    <p>Nutty and creamy pistachio taste</p>
+                </div>
+            </div>
+            <div class="flavor-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="flavor-card-image">
+                    <img src="./images/ChatGPT Image Jun 11, 2026, 03_48_56 AM.png" alt="Vanilla">
+                </div>
+                <div class="flavor-card-content">
+                    <h3>Vanilla Classic</h3>
+                    <p>Timeless vanilla perfection</p>
+                </div>
+            </div>
+            <div class="flavor-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="flavor-card-image">
+                    <img src="./images/ChatGPT Image Jun 11, 2026, 03_48_56 AM.png" alt="Chocolate">
+                </div>
+                <div class="flavor-card-content">
+                    <h3>Chocolate Bliss</h3>
+                    <p>Rich and decadent chocolate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Celebration Services -->
+    <section data-aos="fade-up">
+        <h2 class="section-title">Our Sweet <span>Celebration</span> Packages</h2>
+        <div class="celebration-grid">
+            <div class="celebration-card" data-aos="flip-left" data-aos-delay="0">
+                <div class="celebration-image">
+                    <img src="https://via.placeholder.com/400x250?text=Birthday" alt="Birthday Party">
+                </div>
+                <div class="celebration-content">
+                    <h3><i class="fas fa-birthday-cake"></i> Birthday Celebrations</h3>
+                    <p>Make birthdays sweet with our custom ice cream cakes and special arrangements.</p>
+                    <a href="#" class="celebration-btn">Learn More</a>
+                </div>
+            </div>
+            <div class="celebration-card" data-aos="flip-left" data-aos-delay="100">
+                <div class="celebration-image">
+                    <img src="https://via.placeholder.com/400x250?text=Wedding" alt="Wedding">
+                </div>
+                <div class="celebration-content">
+                    <h3><i class="fas fa-heart"></i> Wedding Catering</h3>
+                    <p>Add a touch of sweetness to your special day with our premium wedding packages.</p>
+                    <a href="#" class="celebration-btn">Learn More</a>
+                </div>
+            </div>
+            <div class="celebration-card" data-aos="flip-left" data-aos-delay="200">
+                <div class="celebration-image">
+                    <img src="https://via.placeholder.com/400x250?text=Party" alt="Party">
+                </div>
+                <div class="celebration-content">
+                    <h3><i class="fas fa-party-horn"></i> Party Events</h3>
+                    <p>Custom flavors and decoration options for unforgettable party experiences.</p>
+                    <a href="#" class="celebration-btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Perfect Scoop -->
+    <section data-aos="fade-up">
+        <h2 class="section-title">The Art of the <span>Perfect Scoop</span></h2>
+        <div class="scoop-grid">
+            <div class="scoop-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="scoop-number">1</div>
+                <h3>Fresh Selection</h3>
+                <p>Choose from 20+ premium flavors made fresh daily</p>
+            </div>
+            <div class="scoop-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="scoop-number">2</div>
+                <h3>Perfect Temperature</h3>
+                <p>Scooped at the ideal temperature for smoothness</p>
+            </div>
+            <div class="scoop-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="scoop-number">3</div>
+                <h3>Satisfy Your Cravings</h3>
+                <p>Experience pure bliss in every bite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore Categories -->
+    <section data-aos="fade-up">
+        <h2 class="section-title">Explore Our <span>Categories</span></h2>
+        <div class="categories-grid">
+            <div class="category-card" data-aos="zoom-in" data-aos-delay="0">
+                <img src="./images/ChatGPT Image Jun 11, 2026, 03_48_56 AM.png" alt="Sundaes">
+                <div class="category-overlay">
+                    <h3>Sundaes</h3>
+                    <p>Topped with delicious sauces</p>
+                </div>
+            </div>
+            <div class="category-card" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://via.placeholder.com/300x300?text=Milkshakes" alt="Milkshakes">
+                <div class="category-overlay">
+                    <h3>Milkshakes</h3>
+                    <p>Creamy and refreshing blends</p>
+                </div>
+            </div>
+            <div class="category-card" data-aos="zoom-in" data-aos-delay="200">
+                <img src="https://via.placeholder.com/300x300?text=Parfaits" alt="Parfaits">
+                <div class="category-overlay">
+                    <h3>Parfaits</h3>
+                    <p>Layered delightful treats</p>
+                </div>
+            </div>
+            <div class="category-card" data-aos="zoom-in" data-aos-delay="300">
+                <img src="https://via.placeholder.com/300x300?text=Cones" alt="Cones">
+                <div class="category-overlay">
+                    <h3>Cones</h3>
+                    <p>Classic and crispy options</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summer Special - FULL WIDTH BACKGROUND -->
+    <div class="summer-special-section" data-aos="fade-up">
+        <div class="summer-special">
+            <div class="summer-special-inner">
+                <div class="summer-content" data-aos="fade-right">
+                    <div class="discount-badge">Summer Special!</div>
+                    <h2>Get 50% OFF on All Ice Creams</h2>
+                    <p>Don't miss our biggest summer sale! Enjoy premium ice creams at unbeatable prices. Limited time offer.</p>
+                    <a href="#contactModal" class="hero-btn"><i class="fas fa-shopping-cart"></i> Shop Now</a>
+                </div>
+                <div class="summer-image" data-aos="fade-left">
+                    <img src="./images/ChatGPT Image Jun 11, 2026, 02_44_20 AM.png" alt="Summer Special">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Best Sellers -->
+    <section data-aos="fade-up">
+        <h2 class="section-title">Our <span>Best Sellers</span></h2>
+        <div class="sellers-grid">
+            <div class="seller-card" data-aos="zoom-in" data-aos-delay="0">
+                <div class="seller-image">
+                    <img src="https://via.placeholder.com/300x200?text=Strawberry+Cone" alt="Strawberry Cone">
+                </div>
+                <div class="seller-info">
+                    <h3>Strawberry Swirl</h3>
+                    <div class="seller-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i> (4.8)</div>
+                    <div class="seller-price">
+                        <span class="price">$4.99</span>
+                        <a href="#" class="cart-btn"><i class="fas fa-shopping-bag"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="seller-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="seller-image">
+                    <img src="https://via.placeholder.com/300x200?text=Chocolate+Dream" alt="Chocolate Dream">
+                </div>
+                <div class="seller-info">
+                    <h3>Chocolate Dream</h3>
+                    <div class="seller-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (5.0)</div>
+                    <div class="seller-price">
+                        <span class="price">$5.49</span>
+                        <a href="#" class="cart-btn"><i class="fas fa-shopping-bag"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="seller-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="seller-image">
+                    <img src="https://via.placeholder.com/300x200?text=Vanilla+Bliss" alt="Vanilla Bliss">
+                </div>
+                <div class="seller-info">
+                    <h3>Vanilla Bliss</h3>
+                    <div class="seller-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (4.7)</div>
+                    <div class="seller-price">
+                        <span class="price">$3.99</span>
+                        <a href="#" class="cart-btn"><i class="fas fa-shopping-bag"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="seller-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="seller-image">
+                    <img src="https://via.placeholder.com/300x200?text=Mango+Tango" alt="Mango Tango">
+                </div>
+                <div class="seller-info">
+                    <h3>Mango Tango</h3>
+                    <div class="seller-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i> (4.9)</div>
+                    <div class="seller-price">
+                        <span class="price">$4.49</span>
+                        <a href="#" class="cart-btn"><i class="fas fa-shopping-bag"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section - REDESIGNED (sky blue background) -->
+    <section class="testimonials-section" data-aos="fade-up" id="testimonials">
+        <h2 class="section-title">Hear From Our <span>Happy Ice Cream Lovers</span></h2>
+        <div class="testimonials-wrap">
+            <div class="testimonials-grid">
+                <div class="t-card" data-aos="zoom-in" data-aos-delay="0">
+                    <span class="t-quote-mark">&#8220;</span>
+                    <p class="t-text">The best ice cream I&apos;ve ever had! The flavors are incredible and the service is outstanding. Mondo Del Gelato is now my favorite spot in town.</p>
+                    <div class="t-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <div class="t-person">
+                        <img class="t-avatar" src="./images/avatar-1.png" alt="John Smith">
+                        <div>
+                            <div class="t-name">John Smith</div>
+                            <div class="t-role">Happy Customer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="t-card" data-aos="zoom-in" data-aos-delay="100">
+                    <span class="t-quote-mark">&#8220;</span>
+                    <p class="t-text">Amazing flavors and excellent service, worth every penny! I visit at least twice a week and never get tired of their wonderful selections.</p>
+                    <div class="t-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <div class="t-person">
+                        <img class="t-avatar" src="./images/avatar-2.png" alt="Sarah Johnson">
+                        <div>
+                            <div class="t-name">Sarah Johnson</div>
+                            <div class="t-role">Happy Customer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="t-card" data-aos="zoom-in" data-aos-delay="200">
+                    <span class="t-quote-mark">&#8220;</span>
+                    <p class="t-text">Perfect place for family outings. The kids love the variety of flavors and the staff is incredibly friendly and accommodating to all our needs.</p>
+                    <div class="t-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i>
+                    </div>
+                    <div class="t-person">
+                        <img class="t-avatar" src="./images/avatar-3.png" alt="Mike Davis">
+                        <div>
+                            <div class="t-name">Mike Davis</div>
+                            <div class="t-role">Happy Customer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section data-aos="fade-up">
+        <h2 class="section-title">Why <span>Choose</span> Mondo Del Gelato?</h2>
+        <div class="why-choose-grid">
+            <div class="why-choose-card" data-aos="zoom-in" data-aos-delay="0">
+                <div class="why-choose-icon"><i class="fas fa-leaf"></i></div>
+                <h3>100% Natural</h3>
+                <p>Made with pure, natural ingredients sourced from trusted suppliers worldwide.</p>
+            </div>
+            <div class="why-choose-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="why-choose-icon"><i class="fas fa-award"></i></div>
+                <h3>Award Winning</h3>
+                <p>Recognized nationally for our exceptional quality and customer satisfaction.</p>
+            </div>
+            <div class="why-choose-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="why-choose-icon"><i class="fas fa-users"></i></div>
+                <h3>Family Friendly</h3>
+                <p>A perfect destination for families with something delicious for everyone.</p>
+            </div>
+            <div class="why-choose-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="why-choose-icon"><i class="fas fa-truck"></i></div>
+                <h3>Quick Delivery</h3>
+                <p>Fast and reliable delivery service to bring our gelato to your doorstep.</p>
+            </div>
+            <div class="why-choose-card" data-aos="zoom-in" data-aos-delay="400">
+                <div class="why-choose-icon"><i class="fas fa-smile"></i></div>
+                <h3>Customer Care</h3>
+                <p>Dedicated support team ready to ensure your complete satisfaction always.</p>
+            </div>
+            <div class="why-choose-card" data-aos="zoom-in" data-aos-delay="500">
+                <div class="why-choose-icon"><i class="fas fa-ice-cream"></i></div>
+                <h3>Variety</h3>
+                <p>20+ flavors with seasonal specials and custom creations available.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Mondo Del Gelato</h3>
+                <p>Your destination for premium ice cream made with passion and the finest ingredients.</p>
+                <div class="social-icons">
+                    <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://tiktok.com" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#flavors">Menu</a></li>
+                    <li><a href="#services">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li class="footer-icon"><i class="fas fa-birthday-cake"></i> <a href="#">Event Catering</a></li>
+                    <li class="footer-icon"><i class="fas fa-box"></i> <a href="#">Bulk Packages</a></li>
+                    <li class="footer-icon"><i class="fas fa-truck"></i> <a href="#">Home Delivery</a></li>
+                    <li class="footer-icon"><i class="fas fa-gift"></i> <a href="#">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li class="footer-icon"><i class="fas fa-map-marker-alt"></i> 123 Ice Cream Street, Sweet City</li>
+                    <li class="footer-icon"><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li class="footer-icon"><i class="fas fa-envelope"></i> <a href="mailto:info@mondodelgelato.com">info@mondodelgelato.com</a></li>
+                    <li class="footer-icon"><i class="fas fa-clock"></i> Mon-Sun: 10AM - 10PM</li>
+                </ul>
+                <a href="#contact" class="hero-btn" style="margin-top: 1rem; width: 100%; text-align: center;"><i class="fas fa-envelope"></i> Contact Us</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Mondo Del Gelato Ice Cream Parlor. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Get In <span>Touch</span></h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select a subject</option>
+                        <option value="inquiry">General Inquiry</option>
+                        <option value="catering">Event Catering</option>
+                        <option value="complaint">Complaint</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </form>
+            <div class="success-message" id="successMessage">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <h3>Thank You!</h3>
+                <p>Your message has been sent successfully. We&apos;ll get back to you soon!</p>
+                <a href="#" class="hero-btn" id="closeSuccess" style="margin-top: 1rem; text-align: center;">Close</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll To Top Button -->
+    <a href="#home" class="scroll-top" id="scrollTopBtn"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- AOS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Logo image upload: click the logo to receive/replace the image
+        const logo = document.getElementById('logo');
+        const logoInput = document.getElementById('logoInput');
+        const logoImg = document.getElementById('logoImg');
+
+        logo.addEventListener('click', function () {
+            logoInput.click();
+        });
+
+        logoInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    logoImg.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Modal functionality
+        const contactModal = document.getElementById('contactModal');
+        const contactBtns = document.querySelectorAll('#contactBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const closeSuccess = document.getElementById('closeSuccess');
+
+        // Open modal
+        contactBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                contactModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close modal function
+        function closeModal() {
+            contactModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            contactForm.reset();
+            successMessage.classList.remove('show');
+            contactForm.style.display = 'block';
+        }
+
+        // Close button click
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close success button click
+        closeSuccess.addEventListener('click', function (e) {
+            e.preventDefault();
+            closeModal();
+        });
+
+        // Click outside modal to close
+        window.addEventListener('click', function(event) {
+            if (event.target === contactModal) {
+                closeModal();
+            }
+        });
+
+        // Form submission with Formspree
+        contactForm.addEventListener('submit', function(e) {
+            setTimeout(() => {
+                contactForm.style.display = 'none';
+                successMessage.classList.add('show');
+                setTimeout(() => {
+                    contactForm.style.display = 'block';
+                    closeModal();
+                }, 2000);
+            }, 500);
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#contact' || href === '#contactModal') {
+                    e.preventDefault();
+                    contactModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
